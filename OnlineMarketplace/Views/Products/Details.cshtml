@@ -1,0 +1,81 @@
+﻿@using OnlineMarketplace.Data
+@model Product
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div class="row text">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h1>Details for @Model.Name</h1>
+        </p>
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <div class="form-group text-center">
+                    <img class="border-info rounded-circle" style="max-width: 150px" src="@Model.ImageURL"/>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <strong class="form-control">@Model.Name</strong>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <strong class="form-control">@Model.Description</strong>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Category" class="control-label"></label>
+                    <strong class="form-control">@Model.Category?.Name</strong>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UnitsInStock" class="control-label"></label>
+                    <strong class="form-control">@Model.UnitsInStock</strong>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price" class="control-label"></label>
+                    <strong class="form-control">@Model.Price</strong>
+                </div>
+
+                <div class="form-group">
+                    @if (User.Identity.IsAuthenticated && User.IsInRole(UserRoles.Admin))
+                    {
+                        <a class="btn btn-outline-success float-right" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                    }
+                    <form asp-action="AddToCart" asp-controller="Cart" method="post">
+                        <input type="hidden" name="productId" value="@Model.Id" />
+                        <input type="submit" value="Add to Cart" class="btn btn-outline-success" />
+                    </form>
+                    <a class="btn btn-outline-secondary" asp-action="Index">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@if (Model.Reviews != null)
+{
+<div>
+        
+    <p>Reviews</p>
+    @foreach(var review in Model.Reviews)
+    {
+    <div class="form-group">
+        Rating: @review.Rating
+        <strong class="form-control">@review.Comment</strong>
+    </div>
+    }
+
+</div>
+} else
+{
+    <h3>
+        There is no reviews.
+    </h3>
+}
+<div>
+    <form asp-action="Create" asp-controller="Review" method="get">
+        <input type="hidden" name="productId" value="@Model.Id" />
+        <input type="submit" value="Add Review" class="btn btn-success" />
+    </form>
+</div>

@@ -1,0 +1,62 @@
+﻿@model IEnumerable<OnlineMarketplace.Models.Payment>
+
+@{
+    ViewData["Title"] = "PaymentHistory";
+}
+@if (Model != null){
+
+<h1>Payment History for @Model.FirstOrDefault()?.ApplicationUser?.FullName</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PaymentDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Method)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            @if (User.IsInRole(UserRoles.Admin))
+            {       
+            <th>
+                @Html.DisplayNameFor(model => model.OrderId)
+            </th>
+            }
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaymentDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Method)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            @if (User.IsInRole(UserRoles.Admin))
+            {
+            <th>
+                @Html.DisplayFor(model => item.OrderId)
+            </th>
+            }
+        </tr>
+}
+    </tbody>
+    </table>
+} else
+{
+    <h2>Customer out of data</h2>
+}

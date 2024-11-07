@@ -1,0 +1,26 @@
+﻿@model OnlineMarketplace.Models.ReviewViewModel
+
+@{
+    ViewData["Title"] = "Delete Review";
+}
+
+<h1>Delete Review for @Model.ProductName</h1>
+
+<h3>Are you sure you want to delete this review?</h3>
+
+<div>
+    <h4>Rating: @Model.Rating</h4>
+    <p>@Model.Comment</p>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Details" asp-controller="Products" asp-route-id="@Model.ProductId" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

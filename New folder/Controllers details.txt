@@ -1,0 +1,143 @@
+1. ProductController
+	Purpose: Handles actions related to product management (CRUD operations for products).
+	Actions:
+		Index: Display a list of products.
+		Details: Show detailed information about a product.
+		Create: Create a new product (Admin use).
+		Edit: Edit an existing product (Admin use).
+		Delete: Delete a product (Admin use).
+
+2. CustomerController
+	Purpose: Handles all customer profile-related actions:
+	Actions:
+		Index: View all customers (Admin use).
+		Profile: View and update customer profile.
+		Create: Used for admin or internal account creation (optional).
+		Edit: Modify customer details.
+		Delete: Admin can delete customer.
+
+3. PaymentController
+	Purpose: Handles payment processing for orders.
+	Actions:
+		ProcessPayment: Execute a payment for an order.
+		RefundPayment: Process a refund for an order (Admin use).
+		PaymentHistory: Show payment history for a customer (Admin or customer).
+
+4. ReviewController
+	Purpose: Manages reviews customers leave for products.
+	Actions:
+		Create: Add a review for a product.
+		Edit: Edit a review (Customer).
+		Delete: Remove a review (Admin or customer).
+		
+
+5. CartController
+Actions:
+	○ Index
+		Purpose: Display the current cart and its items.
+		URL: /Cart/Index
+		HTTP Verb: GET
+		Description: Displays the items in the current cart, with options to modify quantities or remove items.
+
+	○ AddToCart
+		Purpose: Add a product to the cart.
+		URL: /Cart/AddToCart/{productId}
+		HTTP Verb: POST
+		Description: Adds a product to the cart. If the product is already in the cart, increase its quantity.
+
+	○ RemoveFromCart
+		Purpose: Remove a product from the cart.
+		URL: /Cart/RemoveFromCart/{productId}
+		HTTP Verb: POST
+		Description: Removes a specific product from the cart.
+
+	○ UpdateQuantity
+		Purpose: Update the quantity of a specific item in the cart.
+		URL: /Cart/UpdateQuantity/{productId}
+		HTTP Verb: POST
+		Description: Updates the quantity of a product in the cart.
+
+	○ ClearCart
+		Purpose: Clear all items from the cart.
+		URL: /Cart/ClearCart
+		HTTP Verb: POST
+		Description: Empties the cart.
+
+	○ Checkout
+		Purpose: Redirects to the order placement process.
+		URL: /Cart/Checkout
+		HTTP Verb: GET/POST
+		Description: Initiates the checkout process, which eventually places an order based on the cart items.
+		
+6. OrderController
+Actions:
+	○ Index (for Admin)
+		Purpose: View all orders (Admin use).
+		URL: /Order/Index
+		HTTP Verb: GET
+		Description: Retrieves a list of all orders.
+
+	○ CustomerOrders (for Customer)
+		Purpose: View a list of orders for the current customer.
+		URL: /Order/CustomerOrders
+		HTTP Verb: GET
+		Description: Retrieves a list of the current customer's orders.
+
+	○ Details
+		Purpose: View details of a specific order, including items and addresses.
+		URL: /Order/Details/{id}
+		HTTP Verb: GET
+		Description: Displays the order’s details, including:
+			- Shipping/billing addresses.
+			- List of products in the order (previously in OrderDetails).
+			- Total amount, payment status.
+
+	○ PlaceOrder
+		Purpose: Finalize an order and set its details.
+		URL: /Order/PlaceOrder
+		HTTP Verb: POST
+		Description: Handles creating an order from the current cart and setting the shipping/billing addresses.
+
+	○ Edit
+		Purpose: Edit details of an order (Admin use).
+		URL: /Order/Edit/{id}
+		HTTP Verb: GET/POST
+		Description: Modify the order’s details, including the shipping/billing addresses or specific order items.
+
+	○ CancelOrder
+		Purpose: Cancel an order.
+		URL: /Order/CancelOrder/{id}
+		HTTP Verb: POST
+		Description: Marks the order as canceled.
+		
+7. CategoryController
+Actions:
+	○ Index
+		Purpose: Display a list of all categories.
+		URL: /Category/Index
+		HTTP Verb: GET
+		Description: Retrieves and displays a list of all available product categories.
+	
+	○ Details
+		Purpose: View details of a specific category.
+		URL: /Category/Details/{id}
+		HTTP Verb: GET
+		Description: Displays detailed information about a category, including a list of products within that category.
+	
+	○ Create
+		Purpose: Create a new product category.
+		URL: /Category/Create
+		HTTP Verb: GET (for form) / POST (to submit data)
+		Description: Displays a form to create a new category (GET), then saves the new category to the database (POST).
+	
+	○ Edit
+		Purpose: Edit an existing category.
+		URL: /Category/Edit/{id}
+		HTTP Verb: GET (for form) / POST (to submit changes)
+		Description: Displays a form to edit an existing category (GET), then saves the changes to the category (POST).
+	
+	○ Delete
+		Purpose: Delete a category.
+		URL: /Category/Delete/{id}
+		HTTP Verb: GET (to confirm) / POST (to delete)
+		Description: Confirms and then deletes the specified category from the database. Typically only allowed if no products are associated with it.

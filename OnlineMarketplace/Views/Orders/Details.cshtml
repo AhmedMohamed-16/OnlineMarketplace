@@ -1,0 +1,98 @@
+﻿@using OnlineMarketplace.Data
+@model Order
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Order</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.OrderPlaced)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.OrderPlaced)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.OrderFulfilled)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.OrderFulfilled)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Address.Street)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Address.Street)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Address.District)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Address.District)
+        </dd>
+        @if (Model.Address.ZibCode != null)
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Address.ZibCode)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Address.ZibCode)
+            </dd>
+        }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Address.City)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Address.City)
+        </dd>
+       
+    </dl>
+</div>
+<table class="table">
+	<tr>
+        <th>Product Image</th>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Price</th>
+	</tr>
+	@foreach (var item in Model.OrderDetails)
+	{
+		<tr>
+			<td class="align-middle">
+				<img class="rounded-circle" src="@item.Product.ImageURL" alt="@item.Product.Name" style="max-width: 150px" />
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Product.Name)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Quantity)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Price)$
+			</td>
+		</tr>
+	}
+</table>
+
+<div>
+@if (User.Identity.IsAuthenticated && User.IsInRole(UserRoles.Admin))
+{
+    <a class="btn btn-outline-success float-right" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+}
+@if (User.IsInRole(UserRoles.User) && Model.Status == OrderStatus.Pending)
+{
+    <a class="btn btn-outline-danger float-right" asp-action="Cancel" asp-route-id="@Model.Id">Cancel</a>
+}
+    <a asp-action="Index" class="btn btn-outline-secondary float-right">Back to List</a>
+</div>
